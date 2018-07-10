@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <!--
+        thymeleaf:
+        text:文字输出
+    -->
+    <h1 th:text="${name}">aaa</h1>
+    <h1 th:text="|你在干嘛?${name}|">aaa</h1>
+
+    <!--
+        thymeleaf:
+        with:定义局部变量
+            目前已知局部变量，只对当前内部的标签有效
+    -->
+    <h1 th:with="newname=${name}">
+        <span th:text="${newname}"></span>
+    </h1>
+
+    <h1 th:with="result=((${result_num}+100)/10) == 20">
+        <span th:text="${result}" style="color: red"></span>
+    </h1>
+    <span th:text="${result}"></span>
+
+    <!--
+        thymeleaf:
+        if:判断是否是true,如果是true则显示，否则就不显示
+    -->
+    <h1 th:if="${result_true}==true">1</h1>
+    <h1 th:if="${result_true}==false">2</h1>
+    <h1 th:if="${result_num}&gt;=100">
+        <span th:text="${result_num}" style="color: blueviolet"></span>
+    </h1>
+
+    <!--
+        thymeleaf:
+        三元运算符
+    -->
+    <h1 th:text="${name}=='zhangsan'?'1':'2'" style="color: greenyellow"></h1>
+
+
+    <!--
+        thymeleaf:
+        循环
+    -->
+    <table>
+        <tr>
+            <th>id</th>
+            <th>Host</th>
+            <th>name</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="userItem, userstage:${userlist}">
+            <td><span th:text="${userstage.count}"></span> </td>
+            <td><span th:text="${userItem.host}"></span> </td>
+            <td><span th:text="${userItem.user}"></span> </td>
+            <td><a th:href="@{/secondThymeleaf}">查看</a></td>
+        </tr>
+    </table>
+
+</body>
+</html>

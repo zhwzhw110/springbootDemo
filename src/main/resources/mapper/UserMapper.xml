@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.UserMapper" >
+
+    <resultMap id="UserResultMap" type="com.domain.User">
+        <result column="User" jdbcType="VARCHAR" property="user"></result>
+        <result column="Host" jdbcType="VARCHAR" property="host"></result>
+    </resultMap>
+
+    <select id="getone" resultMap="UserResultMap">
+        SELECT user.Host,user.User from user LIMIT 0,1
+    </select>
+
+</mapper>
