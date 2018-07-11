@@ -4,6 +4,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.realm.SimpleAccountRealm;
+import org.apache.shiro.realm.text.IniRealm;
 import org.apache.shiro.subject.Subject;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,11 +22,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class shiroTest {
     SimpleAccountRealm realm1 = new SimpleAccountRealm();
     SimpleAccountRealm realm2 = new SimpleAccountRealm();
-
+    IniRealm iniRealm = new IniRealm("classpath:userRealm.ini");
     @Before
     public void init(){
         realm1.addAccount("zhangsan","123");//认证realm
-        realm2.addAccount("zhangsan","123","del");//授权realm
+        realm2.addAccount("zhangsan","123","del","add");//授权realm
 
     }
     /**
@@ -68,9 +69,31 @@ public class shiroTest {
         UsernamePasswordToken token = new UsernamePasswordToken("zhangsan","123");
         //授权
         subject.login(token);
-        subject.checkRole("del");
+        subject.checkRoles("del","add","select");
     }
 
+    /**
+     *@author: zhanghHaiWen
+     *@Desc: iniRealm
+     *@params:  * @param null
+     *@Date: 2018/7/11 0011 下午 2:02
+     */
+    @Test
+    public void iniRealmTest(){
+        //构建SecurityManager环境
+        DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
+        defaultSecurityManager.setRealm(iniRealm);
+        SecurityUtils.setSecurityManager(defaultSecurityManager);
+
+        //获取一个主体
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken("zhangsan","123456");
+        //授权
+        subject.login(token);
+        System.out.println(subject.isAuthenticated());
+        subject.checkRoles("role1"); //校验角色身份
+        subject.checkPermission("user:update");//校验权限
+    }
 
 }
 
