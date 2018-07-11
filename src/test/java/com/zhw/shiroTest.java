@@ -38,6 +38,8 @@ public class shiroTest {
         dataSource.setPassword("root");
         dataSource.setUrl("");
         jdbcRealm.setDataSource(dataSource);
+        String sql = "select role_name from user_roles where username = ?"; //自定义查找
+        jdbcRealm.setUserRolesQuery(sql);
         jdbcRealm.setPermissionsLookupEnabled(true); //启动权限校验
     }
     /**
