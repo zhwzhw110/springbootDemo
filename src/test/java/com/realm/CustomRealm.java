@@ -1,8 +1,6 @@
 package com.realm;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -15,6 +13,7 @@ import org.apache.shiro.subject.PrincipalCollection;
  */
 public class CustomRealm extends AuthorizingRealm {
     /**
+     * 授权信息
      * Retrieves the AuthorizationInfo for the given principals from the underlying data store.  When returning
      * an instance from this method, you might want to consider using an instance of
      * {@link SimpleAuthorizationInfo SimpleAuthorizationInfo}, as it is suitable in most cases.
@@ -29,6 +28,7 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
     /**
+     * 认证
      * Retrieves authentication data from an implementation-specific datasource (RDBMS, LDAP, etc) for the given
      * authentication token.
      * <p/>
@@ -46,6 +46,12 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        return null;
+        String username = (String) token.getPrincipal();
+        //根据用户名查找数据，查找用户
+        if(null == username){
+            throw new UnknownAccountException();
+        }
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo("zhangsan","123",getName());
+        return authenticationInfo;
     }
 }

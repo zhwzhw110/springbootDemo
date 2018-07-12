@@ -1,6 +1,7 @@
 package com.zhw;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.realm.CustomRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.mgt.DefaultSecurityManager;
@@ -127,6 +128,18 @@ public class shiroTest {
         System.out.println(subject.isAuthenticated()); //是否认证
         subject.checkRole("role1");//校验角色
         subject.checkPermission("user:delete");//校验用户权限
+    }
+
+    @Test
+    public void CustomRealmTest(){
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        securityManager.setRealm(new CustomRealm());
+        SecurityUtils.setSecurityManager(securityManager);
+
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken("zhangsan","123");
+        subject.login(token);
+        System.out.println(subject.isAuthenticated());
     }
 
 }
