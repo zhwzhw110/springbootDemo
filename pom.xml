@@ -78,7 +78,15 @@
 			<version>1.2.3</version>
 		</dependency>
 
-<!--
+		<!--shiro-thymeleaf扩展包-->
+		<!--thymeleaf-shiro-extras-->
+		<dependency>
+			<groupId>com.github.theborakompanioni</groupId>
+			<artifactId>thymeleaf-extras-shiro</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+	<!--
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>

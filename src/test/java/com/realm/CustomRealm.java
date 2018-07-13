@@ -6,6 +6,9 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author: zhangHaiWen
  * @date : 2018/7/11 0011 下午 3:24
@@ -24,7 +27,12 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        principals.getPrimaryPrincipal();
+        List<String> permissions = new ArrayList<String>();
+        permissions.add("user:select");
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.addStringPermissions(permissions);
+        return authorizationInfo;
     }
 
     /**

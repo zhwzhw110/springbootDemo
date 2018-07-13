@@ -140,6 +140,7 @@ public class shiroTest {
         UsernamePasswordToken token = new UsernamePasswordToken("zhangsan","123");
         subject.login(token);
         System.out.println(subject.isAuthenticated());
+        subject.checkPermission("user:select");
     }
 
 }
