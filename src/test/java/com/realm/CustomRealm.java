@@ -3,6 +3,7 @@ package com.realm;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
@@ -29,9 +30,12 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         principals.getPrimaryPrincipal();
         List<String> permissions = new ArrayList<String>();
+        List<String> roles = new ArrayList<String>();
+
         permissions.add("user:select");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.addStringPermissions(permissions);
+        authorizationInfo.addRoles(roles);
         return authorizationInfo;
     }
 
@@ -59,7 +63,13 @@ public class CustomRealm extends AuthorizingRealm {
         if(null == username){
             throw new UnknownAccountException();
         }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo("zhangsan","123",getName());
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo("zhangsan","202cb962ac59075b964b07152d234b70",getName());
         return authenticationInfo;
+    }
+
+    //加密的测试类
+    public static void main(String[] args) {
+        Md5Hash md5Hash = new Md5Hash("123");
+        System.out.println(md5Hash.toString());
     }
 }

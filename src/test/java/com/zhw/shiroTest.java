@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.realm.CustomRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.realm.SimpleAccountRealm;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
@@ -141,6 +142,33 @@ public class shiroTest {
         subject.login(token);
         System.out.println(subject.isAuthenticated());
         subject.checkPermission("user:select");
+    }
+
+
+
+    /**
+    *@author: zhanghHaiWen
+    *@Desc: Shiro复习
+    *@params:  * @param null
+    *@Date: 2018/7/18 0018 下午 2:33
+    */
+    @Test
+    public void  CustomRealmShiroTest(){
+        CustomRealm customRealm = new CustomRealm();
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");//使用加密的算法名称
+        hashedCredentialsMatcher.setHashIterations(1);//使用加密的次数
+        customRealm.setCredentialsMatcher(hashedCredentialsMatcher);//设置到Realm里面
+
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        securityManager.setRealm(customRealm);
+        SecurityUtils.setSecurityManager(securityManager);
+
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken("zhangsan","123");
+        subject.login(token);
+        System.out.println(subject.isAuthenticated());
+
     }
 
 }
