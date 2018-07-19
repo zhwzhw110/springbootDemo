@@ -6,7 +6,6 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ public class CustomRealm extends AuthorizingRealm {
             throw new UnknownAccountException();
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo("zhangsan","202cb962ac59075b964b07152d234b70",getName());
-        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes("asda"));
+       // authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes("asda")); 加盐
         return authenticationInfo;
     }
 

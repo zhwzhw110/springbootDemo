@@ -1,6 +1,9 @@
 package com.controller;
 
 import com.domain.User;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +41,10 @@ public class ThymeleafController {
 
     @RequestMapping(value = "/secondThymeleaf")
     public String secondThymeleaf(){
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken("zhangsan","123");
+        subject.login(token);
+        System.out.println(subject.isAuthenticated());
         return "secondThymeleaf";
     }
 
