@@ -65,11 +65,16 @@ public class MyFilterRegistr {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //shiroFilterFactoryBean.setLoginUrl("/login");//登录的URL
-        //shiroFilterFactoryBean.setUnauthorizedUrl("403.heml");//未认证的页面
+        //shiroFilterFactoryBean.setUnauthorizedUrl("403.heml");//没有权限的时候跳到的页面
 
         //配置过滤器链filterChainDefinitionMap必须是LinkedHashMap 因为它必须保证有序
         LinkedHashMap<String, String> filterChainDefinitionMap=new LinkedHashMap<>();
         filterChainDefinitionMap.put("/secondThymeleaf.html","authc"); //authc 需要认证
+        //设置权限
+        //filterChainDefinitionMap.put("/example/user", "authc,perms[user:view:*]");
+        //设置身份
+        //filterChainDefinitionMap.put("/example/user", "authc,roles[user]");
+
         filterChainDefinitionMap.put("/*","anon");//anon不需要认证
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);//设置过滤器链
 
@@ -77,6 +82,15 @@ public class MyFilterRegistr {
     }
 
 
-
+    /**
+    *@author: zhanghHaiWen
+    *@Desc: 创建自定义的过滤器
+    *@params:  * @param null
+    *@Date: 2018/7/19 0019 下午 3:59
+    */
+    public RolesFilter rolesFilter(){
+        RolesFilter rolesFilter = new RolesFilter();
+        return  rolesFilter;
+    }
 
 }
