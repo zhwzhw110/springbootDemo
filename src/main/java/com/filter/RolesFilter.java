@@ -9,7 +9,7 @@ import javax.servlet.ServletResponse;
 /**
  * @author: zhangHaiWen
  * @date : 2018/7/19 0019 下午 3:51
- * @DESC :
+ * @DESC : 自定义的ShiroFilter
  */
 public class RolesFilter extends AuthorizationFilter {
     /**授权

@@ -28,7 +28,7 @@ public class MyFilterRegistr {
     /**
     *@author: zhanghHaiWen
     *@Desc: 自定义的Realm配置
-    *@params:  * @param null
+    *@params:  * @param HashedCredentialsMatcher
     *@Date: 2018/7/19 0019 上午 11:26
     */
     @Bean(name = "customRealm")
@@ -42,15 +42,43 @@ public class MyFilterRegistr {
 
     /**
     *@author: zhanghHaiWen
+    *@Desc: 配置sessionDao
+    *@params:  * @param null
+    *@Date: 2018/7/20 0020 下午 3:18
+    */
+    @Bean(value = "redisSessionDao")
+    public RedisSessionDao redisSessionDao(){
+        RedisSessionDao sessionDao = new RedisSessionDao();
+        return sessionDao;
+    }
+
+    /**
+    *@author: zhanghHaiWen
+    *@Desc: 配置DefaultWebSessionManager
+    *@params:  * @param redisSessionDao
+    *@Date: 2018/7/20 0020 下午 3:19
+    */
+    @Bean(name = "customSessionManage")
+    public CustomSessionManage sessionManager(@Qualifier("redisSessionDao") RedisSessionDao redisSessionDao){
+        CustomSessionManage sessionManager = new CustomSessionManage();
+        sessionManager.setSessionDAO(redisSessionDao);
+        return sessionManager;
+    }
+
+    /**
+    *@author: zhanghHaiWen
     *@Desc: 自定义的DefaultSecurityManager
-    *@params:  * @param CustomRealm 自定义的Realm
+    *@params:
+     *  * @param CustomRealm 自定义的Realm
+     *  * @param DefaultWebSessionManager 自定义的session会话管理器
     *@Date: 2018/7/18 0018 下午 4:57
     */
     @Bean(name = "securityManager")
-    public DefaultSecurityManager securityManager(@Qualifier(value = "customRealm") CustomRealm customRealm){
+    public DefaultSecurityManager securityManager(@Qualifier(value = "customRealm") CustomRealm customRealm,@Qualifier(value = "customSessionManage") CustomSessionManage customSessionManage){
         //使用DefaultWebSecurityManager  WebSecurityManager
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager ();
-        securityManager.setRealm(customRealm);
+        securityManager.setRealm(customRealm); //配置自定义的Realm
+        securityManager.setSessionManager(customSessionManage); //配置会话管理器
         return securityManager;
     }
 
