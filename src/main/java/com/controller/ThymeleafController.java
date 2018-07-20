@@ -43,9 +43,11 @@ public class ThymeleafController {
     public String secondThymeleaf(){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken("zhangsan","123");
+        token.setRememberMe(true);//设置自动登录会自动存储cookie
         subject.login(token);
         System.out.println(subject.isAuthenticated());
         return "secondThymeleaf";
     }
+
 
 }
