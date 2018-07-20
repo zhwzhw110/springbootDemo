@@ -75,4 +75,17 @@ public class JedisUtils {
             jedis.close();
         }
     }
+    //jedis的长度
+    public int size() {
+        Jedis jedis = getResources();
+        try {
+            Long size = jedis.dbSize();
+            return size.intValue();
+        }
+        finally {
+            jedis.close();
+        }
+    }
+
+
 }

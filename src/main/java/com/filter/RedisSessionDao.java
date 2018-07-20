@@ -24,7 +24,7 @@ public class RedisSessionDao extends AbstractSessionDAO{
     @Resource(name = "jedisUtils")
     private JedisUtils jedisUtils;
 
-    private final static String shiro_session_prifix="zhw:"; //添加前缀
+    private final static String shiro_session_prifix="shiro_session:"; //添加前缀
 
     //redis 的 key就是前缀+sessionId组成，redi中通过存储二进制的形式存储数据
     private byte[] getkey(String key){

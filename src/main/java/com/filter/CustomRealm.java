@@ -28,7 +28,9 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        principals.getPrimaryPrincipal();
+        String username = (String) principals.getPrimaryPrincipal();
+        System.out.println("查询数据库"+username);
+        //数据库查询数据根据username
         List<String> permissions = new ArrayList<String>();
         List<String> roles = new ArrayList<String>();
 
@@ -63,7 +65,7 @@ public class CustomRealm extends AuthorizingRealm {
         if(null == username){
             throw new UnknownAccountException();
         }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo("zhangsan","202cb962ac59075b964b07152d234b70",getName());
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username,"202cb962ac59075b964b07152d234b70",getName());
        // authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes("asda")); 加盐
         return authenticationInfo;
     }

@@ -1,5 +1,6 @@
 package com.filter;
 
+import com.cache.CustomCacheManager;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -64,6 +65,17 @@ public class MyFilterRegistr {
         sessionManager.setSessionDAO(redisSessionDao);
         return sessionManager;
     }
+    /**
+    *@author: zhanghHaiWen
+    *@Desc: 创建自定义的缓存管理器CacheManager
+    *@params:  * @param null
+    *@Date: 2018/7/20 0020 下午 5:06
+    */
+    @Bean(name = "customCacheManager")
+    public CustomCacheManager customCacheManager(){
+        CustomCacheManager cacheManager = new CustomCacheManager();
+        return cacheManager;
+    }
 
     /**
     *@author: zhanghHaiWen
@@ -74,11 +86,12 @@ public class MyFilterRegistr {
     *@Date: 2018/7/18 0018 下午 4:57
     */
     @Bean(name = "securityManager")
-    public DefaultSecurityManager securityManager(@Qualifier(value = "customRealm") CustomRealm customRealm,@Qualifier(value = "customSessionManage") CustomSessionManage customSessionManage){
+    public DefaultSecurityManager securityManager(@Qualifier(value = "customRealm") CustomRealm customRealm,@Qualifier(value = "customSessionManage") CustomSessionManage customSessionManage,@Qualifier(value = "customCacheManager") CustomCacheManager customCacheManager){
         //使用DefaultWebSecurityManager  WebSecurityManager
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager ();
         securityManager.setRealm(customRealm); //配置自定义的Realm
         securityManager.setSessionManager(customSessionManage); //配置会话管理器
+        securityManager.setCacheManager(customCacheManager); //配置缓存管理器
         return securityManager;
     }
 
