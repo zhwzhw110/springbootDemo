@@ -36,6 +36,7 @@ public class RedisCache<K,V> implements Cache<K,V>{
     //获取value
     @Override
     public V get(K k) throws CacheException {
+        //这个地方可以使用本地二级缓存，没有必要每次都去redis中取？？什么意思
         byte[] key = getKey(k);
         byte[] value = jedisUtils.get(key);
         if(value!=null){
